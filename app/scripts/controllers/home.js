@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name jampahandAppApp.controller:HomeCtrl
+ * @name jampahandApp.controller:HomeCtrl
  * @description
  * # HomeCtrl
- * Controller of the jampahandAppApp
+ * Controller of the jampahandApp
  */
 angular.module('jampahandApp')
   .controller('HomeCtrl', ['$rootScope', '$timeout', '$location', '$mdSidenav', function($rootScope, $timeout, $location, $mdSidenav){
@@ -74,4 +74,5 @@ angular.module('jampahandApp')
       $mdSidenav(componentId).toggle();
     };
   }
+
 }]);

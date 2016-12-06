@@ -3,7 +3,7 @@
 describe('Controller: HomeCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('jampahandAppApp'));
+  beforeEach(module('jampahandApp'));
 
   var HomeCtrl,
     scope;

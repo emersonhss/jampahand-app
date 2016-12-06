@@ -26,7 +26,7 @@
     <div ng-controller="HomeCtrl as home" layout="column" ng-cloak>
 
       <md-sidenav class="md-sidenav-left" md-component-id="left-sidenav"
-        md-disable-backdrop md-whiteframe="4">
+        md-disable-backdrop md-whiteframe="4" ng-show="usuarioLogado !== undefined">
 
         <md-toolbar class="md-theme-indigo">
           <div class="md-toolbar-tools">
@@ -55,37 +55,69 @@
 
       <md-toolbar class="md-hue-2">
         <div class="md-toolbar-tools">
-          <md-button class="md-icon-button" aria-label="Settings" ng-click="home.toggleLeft()">
+          <md-button class="md-icon-button" aria-label="Settings" ng-click="home.toggleLeft()" ng-show="usuarioLogado !== undefined">
             <md-icon class="glyphicon glyphicon-menu-hamburger"></md-icon>
           </md-button>
           <h2>
             <span>Jampa Hand - App</span>
           </h2>
           <span flex></span>
-          <div>
-            <span>Usuário Logado</span>
+          <div ng-show="usuarioLogado !== undefined" hide-xs>
+            <img ng-src="{{usuarioLogado.picture.data.url}}" class="md-user-avatar" alt="{{usuarioLogado.name}}">
+            <span class="small">{{usuarioLogado.name}}</span>
           </div>
-          <md-button class="md-icon-button" aria-label="Sair" title="Sair">
-            <md-icon class="glyphicon glyphicon-log-out"></md-icon>
-          </md-button>
+          <div ng-if="usuarioLogado === undefined">
+            <md-button ng-click="doLogin()">
+              <md-icon class="glyphicon glyphicon-log-in"></md-icon> Entrar
+            </md-button>
+          </div>
+          <div ng-if="usuarioLogado !== undefined">
+            <md-button ng-click="doLogout()">
+              <md-icon class="glyphicon glyphicon-log-out" style="color: red;"></md-icon> Sair
+            </md-button>
+          </div>
+        </div>
+        <div ng-show="usuarioLogado !== undefined" hide-gt-xs>
+          <img ng-src="{{usuarioLogado.picture.data.url}}" class="md-user-avatar" alt="{{usuarioLogado.name}}">
+          <span class="small">{{usuarioLogado.name}}</span>
         </div>
         <md-subheader><h3>{{home.currentPage.label}}</h3></md-subheader>
       </md-toolbar>
 
       <md-content flex layout-padding>
-        <p>Lorem ipsum dolor sit amet, ne quod novum mei. Sea omnium invenire mediocrem at, in lobortis conclusionemque nam. Ne deleniti appetere reprimique pro, inani labitur disputationi te sed. At vix sale omnesque, id pro labitur reformidans accommodare, cum labores honestatis eu. Nec quem lucilius in, eam praesent reformidans no. Sed laudem aliquam ne.</p>
 
         <div ng-view=""></div>
 
+        <div class="footer" layout-align="center center">
 
-        <div class="footer">
-          <div class="container">
-            <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-          </div>
+            <p>&copy; Jampa Hand | 2016-2017</p>
+
         </div>
       </md-content>
 
     </div>
+
+    <!-- Facebook SDK -->
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '999795446814306',
+          xfbml      : true,
+          version    : 'v2.8'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/pt_BR/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+
+
+    </script>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -113,7 +145,6 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
-    <script src="bower_components/angular-facebook/lib/angular-facebook.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -123,5 +154,6 @@
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/home.js"></script>
     <!-- endbuild -->
+
   </body>
 </html>

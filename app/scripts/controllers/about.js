@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc function
- * @name jampahandAppApp.controller:AboutCtrl
+ * @name jampahandApp.controller:AboutCtrl
  * @description
  * # AboutCtrl
- * Controller of the jampahandAppApp
+ * Controller of the jampahandApp
  */
 angular.module('jampahandApp')
   .controller('AboutCtrl', function () {
