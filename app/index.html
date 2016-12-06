@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="jampahandApp">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div ng-controller="HomeCtrl as home" layout="column" ng-cloak>
+
+      <md-sidenav class="md-sidenav-left" md-component-id="left-sidenav"
+        md-disable-backdrop md-whiteframe="4">
+
+        <md-toolbar class="md-theme-indigo">
+          <div class="md-toolbar-tools">
+            <h2>
+              <span>Áreas de Trabalho</span>
+            </h2>
+            <span flex></span>
+            <md-button class="md-icon-button" aria-label="Fechar menu lateral" ng-click="home.toggleLeft()">
+              <md-icon class="glyphicon glyphicon-remove"></md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>
+
+        <md-content layout-margin>
+          <md-list flex>
+           <md-subheader class="md-no-sticky">Menu de acesso as áreas de trabalho na(s) qual(is) você possui permissão de acesso.</md-subheader>
+           <md-list-item class="md-1-line" ng-repeat="page in home.menuPages | orderBy : 'order'" ng-click="home.setAreaLocation(page.location)">
+             <div class="md-list-item-text" layout="column">
+               <h3>{{page.label}}</h3>
+             </div>
+           </md-list-item>
+         </md-list>
+        </md-content>
+
+      </md-sidenav>
+
+      <md-toolbar class="md-hue-2">
+        <div class="md-toolbar-tools">
+          <md-button class="md-icon-button" aria-label="Settings" ng-click="home.toggleLeft()">
+            <md-icon class="glyphicon glyphicon-menu-hamburger"></md-icon>
+          </md-button>
+          <h2>
+            <span>Jampa Hand - App</span>
+          </h2>
+          <span flex></span>
+          <div>
+            <span>Usuário Logado</span>
+          </div>
+          <md-button class="md-icon-button" aria-label="Sair" title="Sair">
+            <md-icon class="glyphicon glyphicon-log-out"></md-icon>
+          </md-button>
+        </div>
+        <md-subheader><h3>{{home.currentPage.label}}</h3></md-subheader>
+      </md-toolbar>
+
+      <md-content flex layout-padding>
+        <p>Lorem ipsum dolor sit amet, ne quod novum mei. Sea omnium invenire mediocrem at, in lobortis conclusionemque nam. Ne deleniti appetere reprimique pro, inani labitur disputationi te sed. At vix sale omnesque, id pro labitur reformidans accommodare, cum labores honestatis eu. Nec quem lucilius in, eam praesent reformidans no. Sed laudem aliquam ne.</p>
+
+        <div ng-view=""></div>
+
+
+        <div class="footer">
+          <div class="container">
+            <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+          </div>
+        </div>
+      </md-content>
+
+    </div>
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-facebook/lib/angular-facebook.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/about.js"></script>
+    <script src="scripts/controllers/home.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>
