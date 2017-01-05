@@ -2,35 +2,42 @@
 
 /**
  * @ngdoc function
- * @name jampahandApp.controller:HomeCtrl
+ * @name maximushcApp.controller:HomeCtrl
  * @description
  * # HomeCtrl
- * Controller of the jampahandApp
+ * Controller of the maximushcApp
  */
-angular.module('jampahandApp')
-  .controller('HomeCtrl', ['$rootScope', '$timeout', '$location', '$mdSidenav', function($rootScope, $timeout, $location, $mdSidenav){
+angular.module('maximushcApp')
+  .controller('HomeCtrl', ['$rootScope', '$timeout', '$location', '$mdSidenav', 'UserService', function($rootScope, $timeout, $location, $mdSidenav, UserService){
   var vm = this;
 
   vm.menuPages = [
     {
-      id : 'atletas',
+      id : 'atleta',
       label : 'Área dos Atletas',
-      location : 'atletas',
+      location : 'atleta',
       order : 2
     },
     {
-      id : 'dirigentes',
+      id : 'dirigente',
       label : 'Área dos Dirigentes',
-      location : 'dirigentes',
+      location : 'dirigente',
       order : 3
     },
     {
-      id : 'comissaoTecnica',
+      id : 'tecnico',
       label : 'Área da Comissão Técnica',
-      location : 'comissaoTecnica',
+      location : 'tecnico',
       order : 1
+    },
+    {
+      id : 'sysadmin',
+      label : 'Área do SysAdmin',
+      location : 'sysadmin',
+      order : 4
     }
   ];
+
 
   vm.homePage = {
     id : 'home',
@@ -48,6 +55,19 @@ angular.module('jampahandApp')
       setAreaLocation($location.path().replace('/',''));
   });
 
+  $rootScope.$on('$loginSuccess', function () {
+    if($rootScope.usuarioLogado){
+      UserService.getRoleByUserEmail($rootScope.usuarioLogado.email).then(function(httpResponse){
+        $rootScope.usuarioLogado.localId = httpResponse.data.id;
+        $rootScope.usuarioLogado.roles = httpResponse.data.roles;
+        console.log($rootScope.usuarioLogado);
+        
+      });
+    }
+  });
+
+  //$rootScope.checkLoginState();
+
 
   // Implementação de funções
   function setAreaLocation(location){
@@ -58,7 +78,12 @@ angular.module('jampahandApp')
         paginaLocalizada = true;
       }
     });
-    $location.url('/' + location);
+
+    if($rootScope.usuarioLogado){
+      $location.url('/' + location);
+    } else {
+      $location.url('/');
+    }
 
     if(!paginaLocalizada){
       vm.currentPage = vm.homePage;

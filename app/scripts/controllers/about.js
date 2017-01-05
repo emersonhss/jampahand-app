@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name jampahandApp.controller:AboutCtrl
+ * @name maximushcApp.controller:AboutCtrl
  * @description
  * # AboutCtrl
- * Controller of the jampahandApp
+ * Controller of the maximushcApp
  */
-angular.module('jampahandApp')
+angular.module('maximushcApp')
   .controller('AboutCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',

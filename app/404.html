@@ -14,23 +14,12 @@
         text-shadow: none;
       }
 
-      html {
-        padding: 30px 10px;
-        font-size: 20px;
-        line-height: 1.4;
-        color: #737373;
-        background: #f0f0f0;
-        -webkit-text-size-adjust: 100%;
-        -ms-text-size-adjust: 100%;
-      }
-
       html,
       input {
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       }
 
-      body {
-        max-width: 500px;
+      #conteudo404 {
         padding: 30px 20px 50px;
         border: 1px solid #b3b3b3;
         border-radius: 4px;
@@ -135,13 +124,13 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Not found <span>:(</span></h1>
-      <p>Sorry, but the page you were trying to view does not exist.</p>
-      <p>It looks like this was the result of either:</p>
+    <div id="conteudo404" class="container-fluid">
+      <h1>Página não encontrada! <span>:(</span></h1>
+      <p>Desculpe, mas a página que você tentou acessar não existe.</p>
+      <p>Parece que este foi o resultado de:</p>
       <ul>
-        <li>a mistyped address</li>
-        <li>an out-of-date link</li>
+        <li>um endereço digitado incorretamente</li>
+        <li>um link desatualizado</li>
       </ul>
       <script>
         var GOOG_FIXURL_LANG = (navigator.language || '').slice(0,2),GOOG_FIXURL_SITE = location.host;

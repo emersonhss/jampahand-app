@@ -4,14 +4,14 @@ var statusChangeCallback = undefined;
 
 /**
  * @ngdoc overview
- * @name jampahandApp
+ * @name maximushcApp
  * @description
- * # jampahandApp
+ * # maximushcApp
  *
  * Main module of the application.
  */
 angular
-  .module('jampahandApp', [
+  .module('maximushcApp', [
     'ngAnimate',
     'ngAria',
     'ngCookies',
@@ -29,13 +29,13 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/comissaoTecnica', {
+      .when('/tecnico', {
         templateUrl: 'views/comissaoTecnica.html'
       })
-      .when('/atletas', {
+      .when('/atleta', {
         templateUrl: 'views/atletas.html'
       })
-      .when('/dirigentes', {
+      .when('/dirigente', {
         templateUrl: 'views/dirigentes.html'
       })
       .otherwise({
@@ -44,9 +44,14 @@ angular
       });
 
 
-  }]).run(['$rootScope', function($rootScope){
+  }]).run(['$rootScope', '$location', function($rootScope, $location){
 
     console.log($rootScope.usuarioLogado);
+    var login = function(){
+      FB.login(function(response) {
+        statusChangeCallback(response);
+      });
+    };
 
     statusChangeCallback = function(response){
       console.log('statusChangeCallback');
@@ -60,8 +65,7 @@ angular
         getUserData(response.authResponse.userID);
       } else if (response.status === 'not_authorized') {
         // The person is logged into Facebook, but not your app.
-        console.log('Please log ' +
-        'into this app.');
+        login();
       } else {
         // The person is not logged into Facebook, so we're not sure if
         // they are logged into this app or not.
@@ -77,9 +81,7 @@ angular
     };
 
     $rootScope.doLogin = function(){
-      FB.login(function(response) {
-        statusChangeCallback(response);
-      });
+      login();
     };
 
     $rootScope.doLogout = function(){
@@ -91,6 +93,18 @@ angular
       });
     }
 
+    $rootScope.hasRole = function(roleName){
+      var hasRole = false;
+      if($rootScope.usuarioLogado){
+        angular.forEach($rootScope.usuarioLogado.roles, function(value, key){
+          if(value.name === roleName){
+            hasRole = true;
+          }
+        });
+      }
+      return hasRole;
+    };
+
 
     function getUserData(id) {
       console.log('Welcome!  Fetching your information.... ');
@@ -98,8 +112,11 @@ angular
         console.log(response);
         $rootScope.$apply(function() {
           $rootScope.usuarioLogado = response;
+          $rootScope.$broadcast('$loginSuccess', response);
         });
       });
     }
+
+    $rootScope.checkLoginState();
 
   }]);

@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="jampahandApp">
+  <body ng-app="maximushcApp">
     <!--[if lte IE 8]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -40,7 +40,8 @@
           </div>
         </md-toolbar>
 
-        <md-content layout-margin>
+        <md-content layout="column" layout-margin layout-align="center center">
+          <img src="images/maximus_handebol_clube_logo_escudo.png" alt="Maximus Handebol Clube - PB" width="140"><br>
           <md-list flex>
            <md-subheader class="md-no-sticky">Menu de acesso as áreas de trabalho na(s) qual(is) você possui permissão de acesso.</md-subheader>
            <md-list-item class="md-1-line" ng-repeat="page in home.menuPages | orderBy : 'order'" ng-click="home.setAreaLocation(page.location)">
@@ -59,7 +60,7 @@
             <md-icon class="glyphicon glyphicon-menu-hamburger"></md-icon>
           </md-button>
           <h2>
-            <span>Jampa Hand - App</span>
+            <span>Maximus Handebol Clube - App</span>
           </h2>
           <span flex></span>
           <div ng-show="usuarioLogado !== undefined" hide-xs>
@@ -88,37 +89,14 @@
 
         <div ng-view=""></div>
 
-        <div class="footer" layout-align="center center">
-
-            <p>&copy; Jampa Hand | 2016-2017</p>
-
-        </div>
       </md-content>
 
+      <div class="footer" layout="row" layout-align="center center">
+
+        <p flex>&copy; Maximus Handebol Clube - PB | 2016-2017</p>
+
+      </div>
     </div>
-
-    <!-- Facebook SDK -->
-    <div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '999795446814306',
-          xfbml      : true,
-          version    : 'v2.8'
-        });
-      };
-
-      (function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/pt_BR/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));
-
-
-    </script>
-
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
      <script>
@@ -131,7 +109,28 @@
        ga('send', 'pageview');
     </script>
 
+    <div id="fb-root"></div>
     <!-- build:js(.) scripts/vendor.js -->
+    <!-- Facebook SDK -->
+    <script id="facebook-jssdk" src="//connect.facebook.net/pt_BR/sdk.js"></script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '999795446814306',
+          xfbml      : true,
+          version    : 'v2.8'
+        });
+      };
+      window.fbAsyncInit();
+
+      /*(function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/pt_BR/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));*/
+    </script>
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -153,6 +152,7 @@
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/home.js"></script>
+    <script src="scripts/services/userservice.js"></script>
     <!-- endbuild -->
 
   </body>
