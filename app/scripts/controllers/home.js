@@ -35,6 +35,18 @@ angular.module('maximushcApp')
       label : 'Área do SysAdmin',
       location : 'sysadmin',
       order : 4
+    },
+    {
+      id : 'acesso',
+      label : 'Acessar',
+      location : 'entrar',
+      order : 0
+    },
+    {
+      id : 'acesso-cadastrar-socio',
+      label : 'Acessar',
+      location : 'entrar-cadastrar-socio',
+      order : 0
     }
   ];
 
@@ -61,7 +73,7 @@ angular.module('maximushcApp')
         $rootScope.usuarioLogado.localId = httpResponse.data.id;
         $rootScope.usuarioLogado.roles = httpResponse.data.roles;
         console.log($rootScope.usuarioLogado);
-        
+
       });
     }
   });
@@ -80,12 +92,18 @@ angular.module('maximushcApp')
     });
 
     if($rootScope.usuarioLogado){
-      $location.url('/' + location);
+      if(location === 'entrar' || location.indexOf('entrar') === 0){
+        $location.url('/');
+      } else {
+        $location.url('/' + location);
+      }
     } else {
-      $location.url('/');
+      if(location !== 'entrar' && location.indexOf('entrar') !== 0){
+        $location.url('/');
+      }
     }
 
-    if(!paginaLocalizada){
+    if(location !== 'entrar' && !paginaLocalizada){
       vm.currentPage = vm.homePage;
     }
 

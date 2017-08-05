@@ -14,7 +14,10 @@
     "angular-touch": "^1.4.0",
     "angular-material": "^1.1.1",
     "jquery": "^3.1.1",
-    "material-design-icons": "^3.0.1"
+    "material-design-icons": "^3.0.1",
+    "mdi": "^2.0.46",
+    "angular-ui-mask": "^1.8.7",
+    "angular-lexacode-mercadopago": "^0.0.2"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"
@@ -27,6 +30,17 @@
         "less/bootstrap.less",
         "dist/css/bootstrap.css",
         "dist/js/bootstrap.js"
+      ]
+    },
+    "mdi": {
+      "main": [
+        "css/materialdesignicons.min.css",
+        "fonts/*.*"
+      ]
+    },
+    "angular-ui-mask": {
+      "main": [
+        "dist/mask.min.js"
       ]
     }
   }

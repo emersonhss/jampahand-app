@@ -2,15 +2,21 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Maximus Esporte Clube - App</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="icon" href="http://maximushandebolpb.com.br/wp-content/themes/maximusesporteclube/images/logo-topo-site.png" sizes="32x32" />
+  	<link rel="icon" href="http://maximushandebolpb.com.br/wp-content/themes/maximusesporteclube/images/logo-topo-site.png" sizes="192x192" />
+  	<link rel="apple-touch-icon-precomposed" href="http://maximushandebolpb.com.br/wp-content/themes/maximusesporteclube/images/logo-topo-site.png" />
+  	<meta name="msapplication-TileImage" content="http://maximushandebolpb.com.br/wp-content/themes/maximusesporteclube/images/logo-topo-site.png" />
+
     <!-- build:css(.) styles/vendor.css -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/mdi/css/materialdesignicons.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -41,7 +47,7 @@
         </md-toolbar>
 
         <md-content layout="column" layout-margin layout-align="center center">
-          <img src="images/maximus_handebol_clube_logo_escudo.png" alt="Maximus Handebol Clube - PB" width="140"><br>
+          <img src="images/logo-topo-site.png" alt="Maximus Esporte Clube" width="140"><br>
           <md-list flex>
            <md-subheader class="md-no-sticky">Menu de acesso as áreas de trabalho na(s) qual(is) você possui permissão de acesso.</md-subheader>
            <md-list-item class="md-1-line" ng-repeat="page in home.menuPages | orderBy : 'order'" ng-click="home.setAreaLocation(page.location)">
@@ -60,7 +66,7 @@
             <md-icon class="glyphicon glyphicon-menu-hamburger"></md-icon>
           </md-button>
           <h2>
-            <span>Maximus Handebol Clube - App</span>
+            <span>Maximus Esporte Clube - App</span>
           </h2>
           <span flex></span>
           <div ng-show="usuarioLogado !== undefined" hide-xs>
@@ -68,13 +74,11 @@
             <span class="small">{{usuarioLogado.name}}</span>
           </div>
           <div ng-if="usuarioLogado === undefined">
-            <md-button ng-click="doLogin()">
-              <md-icon class="glyphicon glyphicon-log-in"></md-icon> Entrar
-            </md-button>
+            <md-button ng-click="doSingin()"></md-icon>Entrar</md-button>
           </div>
           <div ng-if="usuarioLogado !== undefined">
-            <md-button ng-click="doLogout()">
-              <md-icon class="glyphicon glyphicon-log-out" style="color: red;"></md-icon> Sair
+            <md-button class="md-warn" ng-click="doLogout()">
+              Sair
             </md-button>
           </div>
         </div>
@@ -93,7 +97,7 @@
 
       <div class="footer" layout="row" layout-align="center center">
 
-        <p flex>&copy; Maximus Handebol Clube - PB | 2016-2017</p>
+        <p flex>&copy; Maximus Esporte Clube | &copy; 2017</p>
 
       </div>
     </div>
@@ -110,27 +114,32 @@
     </script>
 
     <div id="fb-root"></div>
-    <!-- build:js(.) scripts/vendor.js -->
     <!-- Facebook SDK -->
     <script id="facebook-jssdk" src="//connect.facebook.net/pt_BR/sdk.js"></script>
     <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '999795446814306',
-          xfbml      : true,
-          version    : 'v2.8'
-        });
-      };
-      window.fbAsyncInit();
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '999795446814306',
+        xfbml      : true,
+        version    : 'v2.8'
+      });
+    };
+    window.fbAsyncInit();
 
-      /*(function(d, s, id){
-         var js, fjs = d.getElementsByTagName(s)[0];
-         if (d.getElementById(id)) {return;}
-         js = d.createElement(s); js.id = id;
-         js.src = "//connect.facebook.net/pt_BR/sdk.js";
-         fjs.parentNode.insertBefore(js, fjs);
-       }(document, 'script', 'facebook-jssdk'));*/
-    </script>
+    /*(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/pt_BR/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));*/
+  </script>
+
+  <!-- script type="text/javascript">
+  (function(){function $MPC_load(){window.$MPC_loaded !== true && (function(){var s = document.createElement("script");s.type = "text/javascript";s.async = true;s.src = document.location.protocol+"//secure.mlstatic.com/mptools/render.js";var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);window.$MPC_loaded = true;})();}window.$MPC_loaded !== true ? (window.attachEvent ?window.attachEvent('onload', $MPC_load) : window.addEventListener('load', $MPC_load, false)) : null;})();
+</script -->
+
+    <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -144,6 +153,8 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-ui-mask/dist/mask.min.js"></script>
+    <script src="bower_components/angular-lexacode-mercadopago/angular-lexacode-mercadopago.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -153,6 +164,7 @@
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/home.js"></script>
     <script src="scripts/services/userservice.js"></script>
+    <script src="scripts/controllers/cadastrar-socio.js"></script>
     <!-- endbuild -->
 
   </body>

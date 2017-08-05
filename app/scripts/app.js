@@ -20,7 +20,9 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngMaterial'
+    'ngMaterial',
+    'ui.mask',
+    'lexacode.mercadopago'
   ])
   .config(['$routeProvider', '$mdThemingProvider', function ($routeProvider, $mdThemingProvider) {
     $routeProvider
@@ -29,15 +31,35 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/tecnico', {
-        templateUrl: 'views/comissaoTecnica.html'
+
+      .when('/entrar', {
+        templateUrl: 'views/entrar.html'
       })
+
+      .when('/entrar-cadastrar-socio', {
+        templateUrl: 'views/entrar-cadastrar-socio.html',
+        controller: 'CadastrarSocioCtrl',
+        controllerAs: 'cadastrarSocio'
+      })
+
+
+      .when('/tecnico', {
+        templateUrl: 'views/comissaoTecnica.html',
+      })
+
+
       .when('/atleta', {
         templateUrl: 'views/atletas.html'
       })
+      .when('/atleta/cadastro', {
+        templateUrl: 'views/atletas-cadastro.html'
+      })
+
+
       .when('/dirigente', {
         templateUrl: 'views/dirigentes.html'
       })
+
       .otherwise({
         //redirectTo: '/'
         templateUrl: '404.html',
@@ -78,6 +100,14 @@ angular
       FB.getLoginStatus(function(response) {
         statusChangeCallback(response);
       });
+    };
+
+    $rootScope.doSingin = function(){
+      $location.url('/entrar');
+    };
+
+    $rootScope.doSingupSocio = function(){
+      $location.url('/entrar-cadastrar-socio');
     };
 
     $rootScope.doLogin = function(){

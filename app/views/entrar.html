@@ -1,0 +1,50 @@
+<div layout="row" layout-xs="column" flex="grow" layout-padding>
+  <md-card flex-xs flex-gt-xs="50" flex-gt-sm="25" flex-offset-gt-sm="25">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Já tenho cadastro!</span>
+        <span class="md-subhead">Já sou cadastrado na área restrita, como Sócio-Torcedor, atleta, comissão técnica ou dirigente.</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-actions layout="column" layout-align="end center">
+
+      <md-button class="md-primary">Entrar com Facebook</md-button>
+
+      <h3><span class="small">OU</span></h3>
+
+      <md-input-container class="md-block">
+        <!-- Use floating label instead of placeholder -->
+        <label>Login</label>
+        <md-icon class="mdi mdi-account"></md-icon>
+        <input ng-model="user.login" type="text">
+      </md-input-container>
+
+      <md-input-container class="md-block">
+        <!-- Use floating label instead of placeholder -->
+        <label>Senha</label>
+        <md-icon class="mdi mdi-account-key"></md-icon>
+        <input ng-model="user.password" type="password">
+      </md-input-container>
+
+      <md-button class="md-primary md-raised">Entrar</md-button>
+    </md-card-actions>
+  </md-card>
+
+  <md-card flex-xs flex-gt-xs="50" flex-gt-sm="25">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Realizar cadastro de Sócio-Torcedor</span>
+        <span class="md-subhead">Fazer o cadastro para adquirir o cartão Sócio-Torcedor.</span>
+      </md-card-title-text>
+      <md-card-title-media>
+        <div class="md-media-sm card-media">
+          <md-icon class="mdi mdi-account-plus" style="font-size: 84px;"></md-icon>
+        </div>
+      </md-card-title-media>
+    </md-card-title>
+    <md-card-actions layout="column" layout-align="end center">
+      <md-button class="md-primary" ng-click="doSingupSocio()">Cadastrar Sócio</md-button>
+    </md-card-actions>
+  </md-card>
+
+</div>
