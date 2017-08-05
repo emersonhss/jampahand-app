@@ -62,6 +62,10 @@ angular.module('maximushcApp')
         }, function (err) {
             // handles the failed operation.
             console.log(err);
+
+            // TODO ajustar código de exemplo
+            vm.mensagemStatusPagamento = 'Nenhum pagamento foi gerado! O usuário não completou o processo de pagamento.';
+            vm.solicitarNumeroCartao = true;
         });
     };
 

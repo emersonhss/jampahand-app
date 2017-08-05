@@ -262,7 +262,8 @@ module.exports = function (grunt) {
           '<%= yeoman.dist %>/scripts/{,*/}*.js',
           '<%= yeoman.dist %>/styles/{,*/}*.css',
           '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-          '<%= yeoman.dist %>/styles/fonts/*'
+          '<%= yeoman.dist %>/styles/fonts/*',
+          '<%= yeoman.dist %>/fonts/*'
         ]
       }
     },
@@ -434,6 +435,11 @@ module.exports = function (grunt) {
           expand: true,
           cwd: '.',
           src: 'bower_components/mdi/css/materialdesignicons.min.css',
+          dest: '<%= yeoman.dist %>'
+        }, {
+          expand: true,
+          cwd: 'bower_components/mdi/',
+          src: 'fonts/{,*/}*.*',
           dest: '<%= yeoman.dist %>'
         }]
       },

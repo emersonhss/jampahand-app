@@ -219,7 +219,7 @@
               Caso o seu pagamento já tenha sido aprovado, então seu cartão já estará habilitado. Caso ainda esteja em processamento, ao realizar o login no nosso aplicativo o
               mesmo informará a situação do pagamento se ainda existir pendência ou se o pagamento foi rejeitado.</p>
 
-              <md-input-container class="md-block" ng-if="cadastrarSocio.solicitarNumeroCartao">
+              <md-input-container class="md-block" ng-if="cadastrarSocio.solicitarNumeroCartao" style="text-align: left;">
                 <label>Número do cartão Sócio-Torcedor</label>
                 <md-icon class="mdi mdi-credit-card-plus"></md-icon>
                 <input type="number" ng-model="cadastrarSocio.socio.numeroCartaoAtual" required />
@@ -234,7 +234,7 @@
       </md-card-content>
       <md-card-actions layout="row" layout-align="end center">
         <md-button class="md-primary md-raised" ng-click="cadastrarSocio.cadastrar()" ng-if="!cadastrarSocio.cadastroRealizado">Cadastrar</md-button>
-        <div ng-if="cadastrarSocio.cadastroRealizado">
+        <div ng-if="cadastrarSocio.cadastroRealizado && !cadastrarSocio.solicitarNumeroCartao">
           <a name="MP-payButton" class='lightBlue-M-Rn-Ar-BrOn' ng-click="cadastrarSocio.pagar()">Pagar</a>
         </div>
         <md-button class="md-primary md-raised" ng-click="cadastrarSocio.finalizar()" ng-if="cadastrarSocio.solicitarNumeroCartao">Finalizar</md-button>
