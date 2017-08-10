@@ -25,6 +25,14 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  var corsMiddleware = function(req, res, next) {
+        console.log('cors');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', '*');
+        //res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        next();
+    };
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -89,7 +97,8 @@ module.exports = function (grunt) {
                 '/app/styles',
                 connect.static('./app/styles')
               ),
-              connect.static(appConfig.app)
+              connect.static(appConfig.app),
+              corsMiddleware
             ];
           }
         }

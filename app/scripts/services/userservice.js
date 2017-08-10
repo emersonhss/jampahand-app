@@ -10,19 +10,26 @@
 angular.module('maximushcApp')
   .factory('UserService', UserService);
 
-  UserService.$inject = ['$http'];
+  UserService.$inject = ['$http', 'URLBACKEND'];
 
-  function UserService($http){
+  function UserService($http, URLBACKEND){
+
+    const URL_RESOURCE = URLBACKEND + '/users';
 
     var service = {
-      getRoleByUserEmail : getRoleByUserEmail
+      getRoleByUserEmail : getRoleByUserEmail,
+      executeLogin : executeLogin
     };
 
     return service;
 
 
     function getRoleByUserEmail(email){
-      return $http.get('http://localhost/maximushc-backend/users/email/' + email);
+      return $http.get(URL_RESOURCE + '/email/' + email);
+    }
+
+    function executeLogin(credentials) {
+      return $http.post(URL_RESOURCE + '/login/',credentials);
     }
 
 

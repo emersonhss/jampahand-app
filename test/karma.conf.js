@@ -34,6 +34,9 @@ module.exports = function(config) {
       'bower_components/angular-material/angular-material.js',
       'bower_components/angular-ui-mask/dist/mask.min.js',
       'bower_components/angular-lexacode-mercadopago/angular-lexacode-mercadopago.js',
+      'bower_components/cpf_cnpj/build/cpf_cnpj.js',
+      'bower_components/ng-cpf-cnpj/lib/ngCpfCnpj.js',
+      'bower_components/js-sha256/src/sha256.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
