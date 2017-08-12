@@ -7,7 +7,7 @@
       </md-card-title-text>
       <md-card-title-media>
         <div class="md-media-sm card-media">
-          <md-icon class="mdi mdi-account-plus md-primary" style="font-size: 84px;"></md-icon>
+          <md-icon md-font-icon="mdi mdi-account-plus md-primary" style="font-size: 84px;"></md-icon>
         </div>
       </md-card-title-media>
     </md-card-title>
@@ -15,8 +15,8 @@
       <md-card-content layout="column">
         <div ng-if="!cadastrarSocio.cadastroRealizado">
           <div layout="row" layout-wrap>
-            <div flex-gt-sm="50" flex="100">
-              <md-input-container class="md-block" >
+            <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+              <md-input-container class="md-block" md-is-error="formCadastroSocio.nome.$dirty && formCadastroSocio.nome.$invalid">
                 <label>Nome</label>
                 <input type="text" name="nome" ng-model="cadastrarSocio.socio.pessoa_fisica.nome" maxlength="120" required/>
 
@@ -26,18 +26,19 @@
               </md-input-container>
             </div>
 
-            <div flex-gt-sm="50" flex="100">
-              <md-input-container class="md-block">
+            <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+              <md-input-container class="md-block" md-is-error="formCadastroSocio.dataNascimento.$dirty && formCadastroSocio.dataNascimento.$invalid">
                 <label>Data de Nascimento</label>
                 <input type="text" name="dataNascimento"  ui-mask="99/99/9999" ng-model="cadastrarSocio.dataNascimento" required/>
+                <md-icon md-font-icon="mdi mdi-calendar-blank"></md-icon>
                 <div ng-messages="formCadastroSocio.dataNascimento.$error">
                   <div ng-message="required">Campo obrigatório.</div>
                 </div>
               </md-input-container>
             </div>
 
-            <div flex-gt-xs="50" flex="100">
-              <md-input-container class="md-block">
+            <div flex-gt-xs="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+              <md-input-container class="md-block" md-is-error="formCadastroSocio.cpf.$dirty && formCadastroSocio.cpf.$invalid">
                 <label>CPF</label>
                 <input type="text" name="cpf" ui-mask="999.999.999-99" ng-model="cadastrarSocio.socio.pessoa_fisica.cpf" ng-cpf required />
                 <div ng-messages="formCadastroSocio.cpf.$error">
@@ -47,8 +48,8 @@
               </md-input-container>
             </div>
 
-            <div flex-gt-xs="50" flex="100">
-              <md-input-container class="md-block">
+            <div flex-gt-xs="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+              <md-input-container class="md-block" md-is-error="formCadastroSocio.rg.$dirty && formCadastroSocio.rg.$invalid">
                 <label>RG</label>
                 <input type="text" name="rg" ng-model="cadastrarSocio.socio.pessoa_fisica.rg" maxlength="20" required/>
                 <div ng-messages="formCadastroSocio.rg.$error">
@@ -62,8 +63,8 @@
                 <legend>Endereço</legend>
 
                 <div layout="row" layout-wrap>
-                  <div flex-gt-xs="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-xs="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.cep.$dirty && formCadastroSocio.cep.$invalid">
                       <label>CEP</label>
                       <input type="text" name="cep" ui-mask="99999-999" ng-model="cadastrarSocio.socio.pessoa_fisica.endereco_cep"  required/>
 
@@ -77,8 +78,8 @@
                     <md-button class="md-primary" ng-href="{{cadastrarSocio.linkPesquisaCep}}" target="_blank">Não sei o CEP</md-button>
                   </div>
 
-                  <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.logradouro.$dirty && formCadastroSocio.logradouro.$invalid">
                       <label>Logradouro</label>
                       <input type="text" name="logradouro" ng-model="cadastrarSocio.socio.pessoa_fisica.endereco_logradouro" maxlength="120" required/>
                       <div ng-messages="formCadastroSocio.logradouro.$error">
@@ -87,8 +88,8 @@
                     </md-input-container>
                   </div>
 
-                  <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.numero.$dirty && formCadastroSocio.numero.$invalid">
                       <label>Número</label>
                       <input type="text" name="numero" ng-model="cadastrarSocio.socio.pessoa_fisica.endereco_numero" maxlength="5" required/>
                       <div ng-messages="formCadastroSocio.rg.$error">
@@ -97,15 +98,15 @@
                     </md-input-container>
                   </div>
 
-                  <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.complemento.$dirty && formCadastroSocio.complemento.$invalid">
                       <label>Complemento</label>
                       <input type="text" name="complemento" ng-model="cadastrarSocio.socio.pessoa_fisica.endereco_complemento" maxlength="120"  />
                     </md-input-container>
                   </div>
 
-                  <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.bairro.$dirty && formCadastroSocio.bairro.$invalid">
                       <label>Bairro</label>
                       <input type="text" name="bairro" ng-model="cadastrarSocio.socio.pessoa_fisica.endereco_bairro" maxlength="120" required/>
                       <div ng-messages="formCadastroSocio.bairro.$error">
@@ -114,8 +115,8 @@
                     </md-input-container>
                   </div>
 
-                  <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.municipio.$dirty && formCadastroSocio.municipio.$invalid">
                       <label>Município</label>
                       <input type="text" name="municipio" ng-model="cadastrarSocio.socio.pessoa_fisica.endereco_municipio" maxlength="120" required/>
                       <div ng-messages="formCadastroSocio.municipio.$error">
@@ -124,8 +125,8 @@
                     </md-input-container>
                   </div>
 
-                  <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.uf.$dirty && formCadastroSocio.uf.$invalid">
                       <label>Unidade Federativa</label>
                       <md-select name="uf" ng-model="cadastrarSocio.socio.pessoa_fisica.endereco_uf" required>
                         <md-option><em>Não informada</em></md-option>
@@ -147,8 +148,8 @@
                 <legend>Contatos</legend>
 
                 <div layout="row" layout-wrap>
-                  <div flex-gt-xs="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-xs="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.telefonePrincipal.$dirty && formCadastroSocio.telefonePrincipal.$invalid">
                       <label>Telefone Principal</label>
                       <input type="text" name="telefonePrincipal" ui-mask="(99) ?999999999" ng-model="cadastrarSocio.socio.pessoa_fisica.contato_tel_principal" required />
                       <div ng-messages="formCadastroSocio.telefonePrincipal.$error">
@@ -157,17 +158,18 @@
                     </md-input-container>
                   </div>
 
-                  <div flex-gt-xs="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-xs="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.telefoneSecundario.$dirty && formCadastroSocio.telefoneSecundario.$invalid">
                       <label>Telefone Secundário</label>
                       <input type="text" name="telefoneSecundario" ui-mask="(99) ?999999999" ng-model="cadastrarSocio.socio.pessoa_fisica.contato_tel_secundario" />
                     </md-input-container>
                   </div>
 
-                  <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.email.$dirty && formCadastroSocio.email.$invalid">
                       <label>E-mail</label>
                       <input type="email" name="email" ng-model="cadastrarSocio.socio.pessoa_fisica.contato_email" required />
+                      <md-icon md-font-icon="mdi mdi-contact-mail"></md-icon>
                       <div ng-messages="formCadastroSocio.email.$error">
                         <div ng-message="required">Campo obrigatório.</div>
                         <div ng-message="email">E-mail com formato inválido.</div>
@@ -176,21 +178,24 @@
                     </md-input-container>
                   </div>
 
-                   <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" md-is-error="cadastrarSocio.confirmacaoEmail != cadastrarSocio.socio.pessoa_fisica.contato_email">
+                   <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.confirmacaoEmail.$dirty && (formCadastroSocio.confirmacaoEmail.$invalid || cadastrarSocio.confirmacaoEmail != cadastrarSocio.socio.pessoa_fisica.contato_email)">
                       <label>Confirme o E-mail</label>
-                      <input type="email" name="confirmacaoEmail" ng-model="cadastrarSocio.confirmacaoEmail" required />
+                      <input type="email" name="confirmacaoEmail" ng-model="cadastrarSocio.confirmacaoEmail" onpaste="return false;" required ng-keyup="console.log(formCadastroSocio.confirmacaoEmail.$error)" />
+                      <md-icon md-font-icon="mdi mdi-contact-mail" ng-if="!(cadastrarSocio.socio.pessoa_fisica.contato_email && cadastrarSocio.confirmacaoEmail === cadastrarSocio.socio.pessoa_fisica.contato_email)"></md-icon>
+                      <md-icon md-font-icon="mdi mdi-check-circle" ng-if="cadastrarSocio.socio.pessoa_fisica.contato_email && cadastrarSocio.confirmacaoEmail === cadastrarSocio.socio.pessoa_fisica.contato_email"></md-icon>
                       <div ng-messages="formCadastroSocio.confirmacaoEmail.$error">
                         <div ng-message="required">Campo obrigatório.</div>
+                        <div ng-show="formCadastroSocio.confirmacaoEmail.$dirty && cadastrarSocio.confirmacaoEmail != cadastrarSocio.socio.pessoa_fisica.contato_email">O e-mail difere do informado.</div>
                       </div>
                     </md-input-container>
                   </div>
 
-                  <div flex="100">
+                  <div flex="100" style="padding-left: 10px; padding-right: 10px;">
                     <label>Aceito receber informações do Maximus Esporte Clube por:</label>
                   </div>
 
-                  <div flex-gt-xs="50" flex="100">
+                  <div flex-gt-xs="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
 
                     <md-checkbox ng-model="cadastrarSocio.socio.pessoa_fisica.contato_autoriza_email" aria-label="Aceito receber informações do Maximus por E-mail" >
                       E-mail
@@ -198,7 +203,7 @@
 
                   </div>
 
-                  <div flex-gt-xs="50" flex="100" layout="row">
+                  <div flex-gt-xs="50" flex="100" layout="row" style="padding-left: 10px; padding-right: 10px;">
 
                     <md-checkbox ng-model="cadastrarSocio.socio.pessoa_fisica.contato_autoriza_wapp" aria-label="Aceito receber informações do Maximus por WhatsApp" >
                       WhatsApp
@@ -215,22 +220,22 @@
                 <legend>Usuário</legend>
 
                 <div layout="column" layout-wrap>
-                  <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.login.$dirty && formCadastroSocio.login.$invalid">
                       <label>Nome do usuário</label>
-                      <md-icon class="mdi mdi-account"></md-icon>
                       <input type="text" name="login" ng-model="cadastrarSocio.socio.usuario.login" maxlength="20" required />
+                      <md-icon md-font-icon="mdi mdi-account"></md-icon>
                       <div ng-messages="formCadastroSocio.login.$error">
                         <div ng-message="required">Campo obrigatório.</div>
                       </div>
                     </md-input-container>
                   </div>
 
-                  <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.password.$dirty && formCadastroSocio.password.$invalid">
                       <label>Senha</label>
-                      <md-icon class="mdi mdi-account-key"></md-icon>
-                      <input type="password" name="password" ng-model="cadastrarSocio.socio.usuario.password" minlength="6" md-minlength="6" required />
+                      <input type="password" name="password" ng-model="cadastrarSocio.senhaUsuario" minlength="6" md-minlength="6" required />
+                      <md-icon md-font-icon="mdi mdi-account-key"></md-icon>
                       <div ng-messages="formCadastroSocio.password.$error">
                         <div ng-message="required">Campo obrigatório.</div>
                         <div ng-message="md-minlength">A senha deve ter pelo menos 6 caracteres.</div>
@@ -238,13 +243,15 @@
                     </md-input-container>
                   </div>
 
-                  <div flex-gt-sm="50" flex="100">
-                    <md-input-container class="md-block" >
+                  <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
+                    <md-input-container class="md-block" md-is-error="formCadastroSocio.confirmaSenha.$dirty && (formCadastroSocio.confirmaSenha.$invalid || cadastrarSocio.senhaConfirmar !== cadastrarSocio.senhaUsuario)">
                       <label>Confirmação</label>
-                      <md-icon class="mdi mdi-account-key"></md-icon>
-                      <input type="password" name="confirmaSenha"  ng-model="cadastrarSocio.senhaConfirmar" required />
+                      <input type="password" name="confirmaSenha"  ng-model="cadastrarSocio.senhaConfirmar" onpaste="return false;" required  />
+                      <md-icon md-font-icon="mdi mdi-check-circle" ng-if="cadastrarSocio.senhaUsuario !== '' && cadastrarSocio.senhaUsuario === cadastrarSocio.senhaConfirmar"></md-icon>
+                      <md-icon md-font-icon="mdi mdi-account-key" ng-if="!(cadastrarSocio.senhaUsuario !== '' && cadastrarSocio.senhaUsuario === cadastrarSocio.senhaConfirmar)"></md-icon>
                       <div ng-messages="formCadastroSocio.confirmaSenha.$error">
                         <div ng-message="required">Campo obrigatório.</div>
+                        <div ng-show="formCadastroSocio.confirmaSenha.$dirty && cadastrarSocio.senhaConfirmar != cadastrarSocio.senhaUsuario">A senha difere da informada.</div>
                       </div>
                     </md-input-container>
                   </div>
@@ -274,15 +281,23 @@
           </div>
 
           <div id="resultadoPagamento" style="text-align: center;" ng-if="cadastrarSocio.mensagemStatusPagamento !== ''">
-            <h4>{{cadastrarSocio.mensagemStatusPagamento}}</h4>
+            <h4 style="color: #c49a2e;">{{cadastrarSocio.mensagemStatusPagamento}}</h4>
+
+            <div ng-show="cadastrarSocio.socio.pagamento" style="color: green;">
+              <h4>Número do Pagamento: {{vm.socio.pagamento.idMercadoPago}}</h4>
+            </div>
 
             <p ng-if="cadastrarSocio.solicitarNumeroCartao">Informe abaixo o número do cartão para vincular ao seu cadastro e finalize o processo de cadastro do Sócio-Torcedor.
               Caso o seu pagamento já tenha sido aprovado, então seu cartão já estará habilitado. Caso ainda esteja em processamento, ao realizar o login no nosso aplicativo o
               mesmo informará a situação do pagamento se ainda existir pendência ou se o pagamento foi rejeitado.</p>
 
-              <md-input-container class="md-block" ng-if="cadastrarSocio.solicitarNumeroCartao" style="text-align: left;">
+              <md-checkbox ng-model="cadastrarSocio.possuoCartao" aria-label="Tenho o cartão em mãos" >
+                Tenho o cartão em mãos
+              </md-checkbox>
+
+              <md-input-container class="md-block" ng-if="cadastrarSocio.possuoCartao" style="text-align: left; max-width: 100px;">
                 <label>Número do cartão Sócio-Torcedor</label>
-                <md-icon class="mdi mdi-credit-card-plus"></md-icon>
+                <md-icon md-font-icon="mdi mdi-credit-card-plus"></md-icon>
                 <input type="number" ng-model="cadastrarSocio.socio.numeroCartaoAtual" required />
               </md-input-container>
 

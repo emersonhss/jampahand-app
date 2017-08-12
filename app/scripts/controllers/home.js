@@ -69,12 +69,13 @@ angular.module('maximushcApp')
 
   $rootScope.$on('$loginSuccess', function () {
     if($rootScope.usuarioLogado){
-      UserService.getRoleByUserEmail($rootScope.usuarioLogado.email).then(function(httpResponse){
-        $rootScope.usuarioLogado.localId = httpResponse.data.id;
-        $rootScope.usuarioLogado.roles = httpResponse.data.roles;
-        console.log($rootScope.usuarioLogado);
+      // UserService.getRoleByUserEmail($rootScope.usuarioLogado.email).then(function(httpResponse){
+      //   $rootScope.usuarioLogado.localId = httpResponse.data.id;
+      //   $rootScope.usuarioLogado.roles = httpResponse.data.roles;
+      //   console.log($rootScope.usuarioLogado);
 
-      });
+      // });
+      console.log('Recebendo broadcast de login.');
     }
   });
 

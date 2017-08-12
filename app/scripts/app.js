@@ -22,7 +22,8 @@ angular
     'ngTouch',
     'ngMaterial',
     'ui.mask',
-    'lexacode.mercadopago'
+    'lexacode.mercadopago',
+    'base64'
   ])
   .config(['$routeProvider', '$mdThemingProvider', function ($routeProvider, $mdThemingProvider) {
     $routeProvider
@@ -33,7 +34,9 @@ angular
       })
 
       .when('/entrar', {
-        templateUrl: 'views/entrar.html'
+        templateUrl: 'views/entrar.html',
+        controller: 'EntrarCtrl',
+        controllerAs: 'entrar'
       })
 
       .when('/entrar-cadastrar-socio', {
@@ -66,7 +69,27 @@ angular
       });
 
 
-  }]).run(['$rootScope', '$location', function($rootScope, $location){
+      // For example: raised button text will be black instead of white.
+      //var lightYellowMap = $mdThemingProvider.extendPalette('yellow', {
+      //  '500': '#ff0000',
+      //  'contrastDefaultColor': 'dark'
+      //});
+
+      // Register the new color palette map with the name <code>neonRed</code>
+      //$mdThemingProvider.definePalette('lightYellowMap', lightYellowMap);
+
+      // Use that theme for the primary intentions
+      //$mdThemingProvider.theme('default')
+       // .primaryPalette('yellow');
+        
+    
+
+  $mdThemingProvider.theme('default')
+    .primaryPalette('amber').accentPalette('yellow');
+
+
+
+  }]).run(['$rootScope', '$location', 'UserService', function($rootScope, $location, UserService){
 
     console.log($rootScope.usuarioLogado);
     var login = function(){
@@ -91,19 +114,55 @@ angular
       } else {
         // The person is not logged into Facebook, so we're not sure if
         // they are logged into this app or not.
-        console.log('Please log ' +
-        'into Facebook.');
+        console.log('Please log into Facebook.');
       }
     };
 
     $rootScope.checkLoginState = function() {
-      FB.getLoginStatus(function(response) {
-        statusChangeCallback(response);
-      });
+      // FB.getLoginStatus(function(response) {
+      //   statusChangeCallback(response);
+      // });
+      
+      // Veriricar se o usuário do maximus e o token está válido.
+      var maximusUserLogged = UserService.getUserLogged();
+      if(maximusUserLogged) {
+        console.log(maximusUserLogged)
+        // Verificar se o usuário está mais de uma hora de autenticação
+        var loginDate = new Date(maximusUserLogged.lastLoginDate);
+        var oneHourInMinutes = 60 * 60000;
+        var expireLoginDate = loginDate.setTime(loginDate.getTime() + oneHourInMinutes);
+        var now = new Date();
+        // Se tiver, realiza logout informando que a sessão expirou e redireciona para a tela de login.
+        if(now > expireLoginDate){
+          UserService.removeUserLogged();
+          maximusUserLogged = undefined;
+          $location.url('/entrar');
+        } 
+        $rootScope.usuarioLogado = maximusUserLogged;
+        // Se não tiver então o usuário está logado e em uso, pode deixar prosseguir.
+
+
+      } else {
+        // Se não tem usuário logado, redireciona a tela de login
+        $location.url('/entrar');
+      }
+
     };
 
-    $rootScope.doSingin = function(){
-      $location.url('/entrar');
+    $rootScope.doSingin = function(user){
+      //$rootScope.checkLoginState();
+      var userSend = angular.copy(user);
+      userSend.password = sha256(user.password);
+      UserService.executeLogin(userSend).then(function(respSuccess){
+        console.log(respSuccess.data);
+        $rootScope.usuarioLogado = respSuccess.data;
+        $rootScope.usuarioLogado.lastLoginDate = new Date();
+        UserService.setUserLogged($rootScope.usuarioLogado);
+        $rootScope.$broadcast('$loginSuccess', $rootScope.usuarioLogado);
+        $location.url('/');
+      }, function(respFail){
+        console.log('Falhou');
+      });
     };
 
     $rootScope.doSingupSocio = function(){
