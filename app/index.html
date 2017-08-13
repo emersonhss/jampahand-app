@@ -48,11 +48,24 @@
 
         <md-content layout="column" layout-margin layout-align="center center">
           <img src="images/logo-topo-site.png" alt="Maximus Esporte Clube" width="140"><br>
+          <md-card>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">{{usuarioLogado.nome}}</span>
+                <span class="md-subhead">{{usuarioLogado.email}}</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button>Trocar Senha</md-button>
+            </md-card-actions>
+          </md-card>
           <md-list flex>
            <md-subheader class="md-no-sticky">Menu de acesso as áreas de trabalho na(s) qual(is) você possui permissão de acesso.</md-subheader>
-           <md-list-item class="md-1-line" ng-repeat="page in home.menuPages | orderBy : 'order'" ng-click="home.setAreaLocation(page.location)">
+           <md-list-item class="md-1-line" ng-repeat="page in home.menuPagesUser | orderBy : 'order'" 
+             ng-click="home.setAreaLocation(page.location)"
+             ng-if="page.viewInMenu">
              <div class="md-list-item-text" layout="column">
-               <h3>{{page.label}}</h3>
+               <h4>{{page.label}}</h4>
              </div>
            </md-list-item>
          </md-list>
@@ -77,7 +90,7 @@
             <md-button ng-click="doSingin()"></md-icon>Entrar</md-button>
           </div>
           <div ng-if="usuarioLogado !== undefined">
-            <md-button class="md-warn" ng-click="doLogout()">
+            <md-button class="md-warn md-raised" ng-click="doLogout()">
               Sair
             </md-button>
           </div>
@@ -172,6 +185,7 @@
     <script src="scripts/services/url_backend.js"></script>
     <script src="scripts/services/socioservice.js"></script>
     <script src="scripts/controllers/entrar.js"></script>
+    <script src="scripts/controllers/sociotorcedor.js"></script>
     <!-- endbuild -->
 
   </body>

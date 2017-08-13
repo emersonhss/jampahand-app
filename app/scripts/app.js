@@ -63,6 +63,12 @@ angular
         templateUrl: 'views/dirigentes.html'
       })
 
+      .when('/socio-torcedor', {
+        templateUrl: 'views/socio-torcedor.html',
+        controller: 'SocioTorcedorCtrl',
+        controllerAs: 'socioTorcedor'
+      })
+
       .otherwise({
         //redirectTo: '/'
         templateUrl: '404.html',
@@ -91,32 +97,32 @@ angular
 
   }]).run(['$rootScope', '$location', 'UserService', function($rootScope, $location, UserService){
 
-    console.log($rootScope.usuarioLogado);
-    var login = function(){
-      FB.login(function(response) {
-        statusChangeCallback(response);
-      });
-    };
+    // console.log($rootScope.usuarioLogado);
+    // var login = function(){
+    //   FB.login(function(response) {
+    //     statusChangeCallback(response);
+    //   });
+    // };
 
-    statusChangeCallback = function(response){
-      console.log('statusChangeCallback');
-      console.log(response);
-      // The response object is returned with a status field that lets the
-      // app know the current login status of the person.
-      // Full docs on the response object can be found in the documentation
-      // for FB.getLoginStatus().
-      if (response.status === 'connected') {
-        // Logged into your app and Facebook.
-        getUserData(response.authResponse.userID);
-      } else if (response.status === 'not_authorized') {
-        // The person is logged into Facebook, but not your app.
-        login();
-      } else {
-        // The person is not logged into Facebook, so we're not sure if
-        // they are logged into this app or not.
-        console.log('Please log into Facebook.');
-      }
-    };
+    // statusChangeCallback = function(response){
+    //   console.log('statusChangeCallback');
+    //   console.log(response);
+    //   // The response object is returned with a status field that lets the
+    //   // app know the current login status of the person.
+    //   // Full docs on the response object can be found in the documentation
+    //   // for FB.getLoginStatus().
+    //   if (response.status === 'connected') {
+    //     // Logged into your app and Facebook.
+    //     getUserData(response.authResponse.userID);
+    //   } else if (response.status === 'not_authorized') {
+    //     // The person is logged into Facebook, but not your app.
+    //     login();
+    //   } else {
+    //     // The person is not logged into Facebook, so we're not sure if
+    //     // they are logged into this app or not.
+    //     console.log('Please log into Facebook.');
+    //   }
+    // };
 
     $rootScope.checkLoginState = function() {
       // FB.getLoginStatus(function(response) {
@@ -126,7 +132,6 @@ angular
       // Veriricar se o usuário do maximus e o token está válido.
       var maximusUserLogged = UserService.getUserLogged();
       if(maximusUserLogged) {
-        console.log(maximusUserLogged)
         // Verificar se o usuário está mais de uma hora de autenticação
         var loginDate = new Date(maximusUserLogged.lastLoginDate);
         var oneHourInMinutes = 60 * 60000;
@@ -149,37 +154,41 @@ angular
 
     };
 
-    $rootScope.doSingin = function(user){
+    $rootScope.doSingin = function(){
       //$rootScope.checkLoginState();
-      var userSend = angular.copy(user);
-      userSend.password = sha256(user.password);
-      UserService.executeLogin(userSend).then(function(respSuccess){
-        console.log(respSuccess.data);
-        $rootScope.usuarioLogado = respSuccess.data;
-        $rootScope.usuarioLogado.lastLoginDate = new Date();
-        UserService.setUserLogged($rootScope.usuarioLogado);
-        $rootScope.$broadcast('$loginSuccess', $rootScope.usuarioLogado);
-        $location.url('/');
-      }, function(respFail){
-        console.log('Falhou');
-      });
+      $location.url('/entrar');
     };
 
     $rootScope.doSingupSocio = function(){
       $location.url('/entrar-cadastrar-socio');
     };
 
-    $rootScope.doLogin = function(){
-      login();
+    $rootScope.doLogin = function(user){
+      //login();
+      var userSend = angular.copy(user);
+      userSend.password = sha256(user.password);
+      UserService.executeLogin(userSend).then(function(respSuccess){
+        console.log('Login realizado com sucesso!');
+        $rootScope.usuarioLogado = respSuccess.data;
+        $rootScope.usuarioLogado.lastLoginDate = new Date();
+        UserService.setUserLogged($rootScope.usuarioLogado);
+        $rootScope.$broadcast('$loginSuccess', $rootScope.usuarioLogado);
+        $location.url('/');
+      }, function(respFail){
+        console.log('Falhou login!');
+        $rootScope.$broadcast('$loginFailed', respFail.data);
+      });
     };
 
     $rootScope.doLogout = function(){
-      FB.logout(function(response) {
-        // user is now logged out
-        $rootScope.$apply(function() {
+      // FB.logout(function(response) {
+      //   // user is now logged out
+      //   $rootScope.$apply(function() {
           $rootScope.usuarioLogado = undefined;
-        });
-      });
+          UserService.removeUserLogged();
+          $location.url('/');
+      //   });
+      // });
     }
 
     $rootScope.hasRole = function(roleName){

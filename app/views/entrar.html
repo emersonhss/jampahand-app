@@ -7,22 +7,29 @@
       </md-card-title-text>
     </md-card-title>
     <md-card-actions layout="column" layout-align="end center">
+      <form name="formLogin">
+        <md-input-container class="md-block" md-is-error="formLogin.login.$dirty && formLogin.login.$invalid">
+          <!-- Use floating label instead of placeholder -->
+          <label>Login</label>
+          <md-icon class="mdi mdi-account"></md-icon>
+          <input name="login" ng-model="entrar.user.login" type="text"  required />
+          <div ng-messages="formLogin.login.$error">
+            <div ng-message="required">Campo obrigatório.</div>
+          </div>
+        </md-input-container>
 
-      <md-input-container class="md-block">
-        <!-- Use floating label instead of placeholder -->
-        <label>Login</label>
-        <md-icon class="mdi mdi-account"></md-icon>
-        <input ng-model="entrar.user.login" type="text">
-      </md-input-container>
+        <md-input-container class="md-block" md-is-error="formLogin.password.$dirty && formLogin.password.$invalid">
+          <!-- Use floating label instead of placeholder -->
+          <label>Senha</label>
+          <md-icon class="mdi mdi-account-key"></md-icon>
+          <input name="password" ng-model="entrar.user.password" type="password" required />
+          <div ng-messages="formLogin.password.$error">
+            <div ng-message="required">Campo obrigatório.</div>
+          </div>
+        </md-input-container>
 
-      <md-input-container class="md-block">
-        <!-- Use floating label instead of placeholder -->
-        <label>Senha</label>
-        <md-icon class="mdi mdi-account-key"></md-icon>
-        <input ng-model="entrar.user.password" type="password">
-      </md-input-container>
-
-      <md-button class="md-primary md-raised" ng-click="doSingin(entrar.user)">Entrar</md-button>
+        <md-button class="md-primary md-raised" ng-click="entrar.doLogin()">Entrar</md-button>
+      </form>
     </md-card-actions>
   </md-card>
 
