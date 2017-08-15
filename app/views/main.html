@@ -1,7 +1,8 @@
 <div class="jumbotron">
   <h1 hide>Maximus Handebol Clube - PB</h1>
   <p class="lead">
-    <img src="images/logo-topo-site.png" alt="Maximus Esporte Clube" /><br>
+    <span ng-if="usuarioLogado"><u>Bem vindo, {{usuarioLogado.nome}}!</u></span><br><br>
+    <img src="images/logo-topo-site.png" alt="Maximus Esporte Clube" /><br><br>
     Aplicativo do time Maximus Esporte Clube.
   </p>
 </div>

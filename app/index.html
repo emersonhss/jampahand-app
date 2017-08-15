@@ -55,9 +55,46 @@
                 <span class="md-subhead">{{usuarioLogado.email}}</span>
               </md-card-title-text>
             </md-card-title>
+            <form name="formTrocaSenha">
+            <md-card-content ng-show="home.trocarSenhaShow">
+              <h4 ng-if="home.trocarSenhaShow">Trocar Senha</h4>
+
+               <md-input-container class="md-block" md-is-error="formTrocaSenha.senhaAtual.$dirty && formTrocaSenha.senhaAtual.$invalid">
+                <label>Senha Atual</label>
+                <md-icon class="mdi mdi-account-key"></md-icon>
+                <input name="senhaAtual" ng-model="home.senhaAtual" type="password" required />
+                <div ng-messages="formTrocaSenha.senhaAtual.$error">
+                  <div ng-message="required">Campo obrigatório.</div>
+                </div>
+              </md-input-container>
+
+              <md-input-container class="md-block" md-is-error="formTrocaSenha.novaSenha.$dirty && formTrocaSenha.novaSenha.$invalid">
+                <label>Nova Senha</label>
+                <md-icon class="mdi mdi-account-key"></md-icon>
+                <input name="novaSenha" ng-model="home.novaSenha" type="password" required />
+                <div ng-messages="formTrocaSenha.novaSenha.$error">
+                  <div ng-message="required">Campo obrigatório.</div>
+                </div>
+              </md-input-container>
+
+              <md-input-container class="md-block" md-is-error="formTrocaSenha.confirmaSenha.$dirty && (formTrocaSenha.confirmaSenha.$invalid || home.confirmaSenha !== home.novaSenha)">
+                <label>Nova Senha</label>
+                <md-icon class="mdi mdi-account-key"></md-icon>
+                <input name="confirmaSenha" ng-model="home.confirmaSenha" type="password" required />
+                <div ng-messages="formTrocaSenha.confirmaSenha.$error">
+                  <div ng-message="required">Campo obrigatório.</div>
+                  <div ng-show="home.confirmaSenha !== home.novaSenha">Não confere com a senha informada.</div>
+                </div>
+              </md-input-container>
+              
+            </md-card-content>
             <md-card-actions layout="row" layout-align="end center">
-              <md-button>Trocar Senha</md-button>
+              <md-button id="btnExibirTrocaSenha" ng-if="!home.trocarSenhaShow" ng-click="home.exibirTrocarSenha()">Trocar Senha</md-button>
+              <md-button id="btnOcultarTrocaSenha" ng-if="home.trocarSenhaShow" ng-click="home.cancelarTrocarSenha()">Cancelar</md-button>
+              <md-button id="btnConfirmarTrocaSenha" class="md-primary md-raised" ng-if="home.trocarSenhaShow"
+               ng-click="home.confirmarTrocarSenha()">Confirmar</md-button>
             </md-card-actions>
+            </form>
           </md-card>
           <md-list flex>
            <md-subheader class="md-no-sticky">Menu de acesso as áreas de trabalho na(s) qual(is) você possui permissão de acesso.</md-subheader>
@@ -102,7 +139,7 @@
         <md-subheader><h3>{{home.currentPage.label}}</h3></md-subheader>
       </md-toolbar>
 
-      <md-content flex layout-padding>
+      <md-content flex>
 
         <div ng-view=""></div>
 
@@ -110,7 +147,7 @@
 
       <div class="footer" layout="row" layout-align="center center">
 
-        <p flex>&copy; Maximus Esporte Clube | &copy; 2017</p>
+        <p flex class="text-center">&copy; Maximus Esporte Clube 2017</p>
 
       </div>
     </div>

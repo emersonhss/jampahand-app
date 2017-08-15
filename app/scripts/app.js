@@ -65,7 +65,7 @@ angular
 
       .when('/socio-torcedor', {
         templateUrl: 'views/socio-torcedor.html',
-        controller: 'SocioTorcedorCtrl',
+        controller: 'SociotorcedorCtrl',
         controllerAs: 'socioTorcedor'
       })
 

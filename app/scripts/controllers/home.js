@@ -8,7 +8,11 @@
  * Controller of the maximushcApp
  */
 angular.module('maximushcApp')
-  .controller('HomeCtrl', ['$rootScope', '$timeout', '$location', '$mdSidenav', 'UserService','$filter', function($rootScope, $timeout, $location, $mdSidenav, UserService, $filter){
+  .controller('HomeCtrl', HomeCtrl);
+  
+HomeCtrl.$inject = ['$rootScope', '$timeout', '$location', '$mdSidenav', 'UserService','$filter', '$window', '$scope', '$mdToast'];
+
+function HomeCtrl($rootScope, $timeout, $location, $mdSidenav, UserService, $filter, $window, $scope, $mdToast) {
   var vm = this;
 
   vm.menuPages = [
@@ -79,43 +83,36 @@ angular.module('maximushcApp')
 
   vm.menuPagesUser = [];
 
-
   vm.homePage = {
     id : 'home',
     label : 'Home',
     location : 'home'
   };
 
+  vm.trocarSenhaShow = false;
+  
   // Declaração de funções.
   vm.setAreaLocation = setAreaLocation;
   vm.getMenuPagesUser = getMenuPagesUser;
   vm.toggleLeft = buildToggler('left-sidenav');
+  vm.exibirTrocarSenha = exibirTrocarSenha;
+  vm.cancelarTrocarSenha = cancelarTrocarSenha;
+  vm.confirmarTrocarSenha = confirmarTrocarSenha;
 
-  if($rootScope.usuarioLogado && $rootScope.usuarioLogado.roles && $rootScope.usuarioLogado.roles.length === 1){
-    setAreaLocation($rootScope.usuarioLogado.roles[0].name);
-    vm.menuPagesUser = getMenuPagesUser($rootScope.usuarioLogado.roles);
-  } else {
-    vm.currentPage = vm.homePage;
-  }
+  loadUserLoggedConfig();
+
+  // Observadores de mensagens
 
   $rootScope.$on('$locationChangeSuccess', function () {
-      setAreaLocation($location.path().replace('/',''));
+    setAreaLocation($location.path().replace('/',''));
   });
 
   $rootScope.$on('$loginSuccess', function () {
-    if($rootScope.usuarioLogado){
-      // UserService.getRoleByUserEmail($rootScope.usuarioLogado.email).then(function(httpResponse){
-      //   $rootScope.usuarioLogado.localId = httpResponse.data.id;
-      //   $rootScope.usuarioLogado.roles = httpResponse.data.roles;
-      //   console.log($rootScope.usuarioLogado);
-
-      // });
-      console.log('Recebendo broadcast de login.');
-    }
+    loadUserLoggedConfig();
   });
 
-  //$rootScope.checkLoginState();
 
+  // Funções
 
   // Implementação de funções
   function setAreaLocation(location){
@@ -127,24 +124,26 @@ angular.module('maximushcApp')
       }
     });
 
-    if($rootScope.usuarioLogado){
-      // Se o usuário estiver logado e tenar acessar uma das telas públicas de acesso
-      if(location === 'entrar' || location.indexOf('entrar') === 0){
-        // então redireciona para tela inicial.
-        $location.url('/');
+    if(paginaLocalizada){
+      if($rootScope.usuarioLogado){
+        if(location !== 'entrar' && location.indexOf('entrar') !== 0){
+          // Se não, segue com a location.
+          $location.url('/' + location);
+        } else {
+          // então redireciona para tela inicial.
+          $location.url('/');
+          vm.currentPage = vm.homePage;
+        }
       } else {
-        // Se não, segue com a location.
-        $location.url('/' + location);
+         if(location !== 'entrar' && location.indexOf('entrar') !== 0){
+           $window.localStorage.setItem('requested_location', location);
+           $location.url('/entrar');
+         } else {
+           $location.url('/' + location);
+         }
       }
     } else {
-      // Se o usuário não estiver logado e tentar acessar uma área não pública
-      if(location !== 'entrar' && location.indexOf('entrar') !== 0){
-        // Emt]ap redireciona para a tela inicial.
-        $location.url('/');
-      }
-    }
-
-    if(location !== 'entrar' && !paginaLocalizada){
+      $location.url('/');      
       vm.currentPage = vm.homePage;
     }
 
@@ -165,10 +164,104 @@ angular.module('maximushcApp')
     return menusUsuario;
   }
 
+  function loadUserLoggedConfig(){
+    if($rootScope.usuarioLogado){
+      console.log('Carregando configurações de usuário logado.');
+      vm.menuPagesUser = getMenuPagesUser($rootScope.usuarioLogado.roles);
+      var requestedLocation = $window.localStorage.getItem('requested_location');
+      if(requestedLocation){
+        console.log(requestedLocation);
+        $window.localStorage.removeItem('requested_location');
+        $location.url('/' + requestedLocation);
+      } else  {
+        if($rootScope.usuarioLogado && $rootScope.usuarioLogado.roles && $rootScope.usuarioLogado.roles.length === 1){
+          setAreaLocation($rootScope.usuarioLogado.roles[0].name);
+        } else {
+          vm.currentPage = vm.homePage;
+        }
+      }
+    }
+  }
+
+  function exibirTrocarSenha(){
+    if(!vm.trocarSenhaShow){
+      vm.trocarSenhaShow = true;
+    }
+  }
+
+  function cancelarTrocarSenha(){
+    if(vm.trocarSenhaShow){
+      vm.trocarSenhaShow = false;
+      limparCamposSenha();
+    }
+  }
+
+  function confirmarTrocarSenha(){
+    if(vm.trocarSenhaShow){
+      var formValido = true;
+
+      angular.forEach($scope.formTrocaSenha.$error, function (error) {
+        angular.forEach(error, function(errorField){
+            errorField.$setDirty();
+            formValido = false;
+        });
+      });
+      
+      if(formValido){
+        console.log('Submeter a troca de senha e aguardar a resposta para confirmar.');  
+        UserService.executeChangePassword($rootScope.usuarioLogado.id, vm.senhaAtual, vm.novaSenha).then(function(response){
+          vm.trocarSenhaShow = false;
+          var toast = $mdToast.simple()
+            .textContent('Senha atualizada com sucesso!')
+            .action('OK!')
+            .highlightAction(true)
+            .highlightClass('md-success')
+            .hideDelay(5000)
+            .position('top right');
+
+          $mdToast.show(toast).then(function(responseToast) {
+            
+          });
+          limparCamposSenha();
+        }, function(response){
+          console.log(response);
+
+          var mensagem = 'Falha ineperada!';
+          if(response.status === 400){
+            mensagem = response.data[0].mensagem;
+          } else {
+            mensagem += ' ' + response.data;
+          }
+
+          var toast = $mdToast.simple()
+            .textContent(mensagem)
+            .action('ENTENDI')
+            .highlightAction(true)
+            .highlightClass('md-warn')
+            .hideDelay(5000)
+            .position('top right');
+
+          $mdToast.show(toast).then(function(responseToast) {
+            
+          });
+          limparCamposSenha();
+        });
+        
+      }
+    }
+  }
+
+  function limparCamposSenha(){
+    vm.senhaAtual = undefined;
+    vm.novaSenha = undefined;
+    vm.confirmaSenha = undefined;
+    $scope.formTrocaSenha.$setPristine();
+  }
+
   function buildToggler(componentId) {
     return function() {
       $mdSidenav(componentId).toggle();
     };
   }
 
-}]);
+}
