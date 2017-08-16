@@ -12,8 +12,8 @@
       </md-card-title-media>
     </md-card-title>
     <md-card-actions layout="row" layout-align="end center">
-      <md-button>Ver</md-button>
-      <md-button>Atualizar</md-button>
+      <md-button ng-disabled="true">Ver</md-button>
+      <md-button ng-disabled="true">Atualizar</md-button>
     </md-card-actions>
   </md-card>
 
@@ -25,12 +25,12 @@
       </md-card-title-text>
       <md-card-title-media>
         <div class="md-media-sm card-media">
-          <md-icon md-font-icon="mdi mdi-credit-card" style="font-size: 84px;"></md-icon>
+          <md-icon md-font-icon="mdi mdi-credit-card" ng-class="{'md-primary' : socioTorcedor.habilitarEfetuarPagamento }" style="font-size: 84px;"></md-icon>
         </div>
       </md-card-title-media>
     </md-card-title>
     <md-card-actions layout="row" layout-align="end center">
-      <md-button>Pagar</md-button>
+      <md-button ng-disabled="!socioTorcedor.habilitarEfetuarPagamento">Pagar</md-button>
     </md-card-actions>
   </md-card>
 
@@ -42,13 +42,13 @@
       </md-card-title-text>
       <md-card-title-media>
         <div class="md-media-sm card-media">
-          <md-icon md-font-icon="mdi mdi-account-card-details" style="font-size: 84px;"></md-icon>
+          <md-icon md-font-icon="mdi mdi-account-card-details" ng-class="{'md-primary': socioTorcedor.habilitarVincularCartaoSocio || socioTorcedor.habilitarVerCartaoSocio }" style="font-size: 84px;"></md-icon>
         </div>
       </md-card-title-media>
     </md-card-title>
     <md-card-actions layout="row" layout-align="end center">
-      <md-button>Ver</md-button>
-      <md-button>Vincular</md-button>
+      <md-button ng-if="socioTorcedor.habilitarVerCartaoSocio">Ver</md-button>
+      <md-button ng-if="socioTorcedor.habilitarVincularCartaoSocio">Vincular</md-button>
     </md-card-actions>
   </md-card>
 

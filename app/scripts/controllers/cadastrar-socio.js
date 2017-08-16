@@ -9,9 +9,9 @@
  */
 angular.module('maximushcApp').controller('CadastrarSocioCtrl', CadastrarSocioCtrl);
   
-CadastrarSocioCtrl.$inject = ['$scope', 'mercadopago', '$location', 'SocioService'];
+CadastrarSocioCtrl.$inject = ['$scope', 'mercadopago', '$location', 'SocioService', '$mdToast'];
   
-function CadastrarSocioCtrl ($scope, mercadopago, $location, SocioService) {
+function CadastrarSocioCtrl ($scope, mercadopago, $location, SocioService, $mdToast) {
   var vm = this;
 
   vm.socio = {};
@@ -61,7 +61,24 @@ function CadastrarSocioCtrl ($scope, mercadopago, $location, SocioService) {
       }, function(response){ // Fail
         console.log('Falha ao inserir sócio.');
         console.log(response);
+        var mensagem = '';
+        if(response.status === 422) {
+          mensagem = response.data.mensagem;
+        } else {
+          mensagem = 'Falha inesperada ao cadastrar sócio!';
+        }
         // TODO tratar erros de validação.
+        var toast = $mdToast.simple()
+          .textContent(mensagem)
+          .action('FECHAR')
+          .highlightAction(true)
+          .highlightClass('md-warn')
+          .hideDelay(10000)
+          .position('top right');
+
+        $mdToast.show(toast).then(function(responseToast) {
+          
+        });
 
         //
       });
