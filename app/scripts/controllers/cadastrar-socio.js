@@ -9,11 +9,12 @@
  */
 angular.module('maximushcApp').controller('CadastrarSocioCtrl', CadastrarSocioCtrl);
   
-CadastrarSocioCtrl.$inject = ['$scope', 'mercadopago', '$location', 'SocioService', '$mdToast'];
+CadastrarSocioCtrl.$inject = ['$scope', 'mercadopago', '$location', 'SocioService', '$mdToast', 'urlMpCheckout'];
   
-function CadastrarSocioCtrl ($scope, mercadopago, $location, SocioService, $mdToast) {
+function CadastrarSocioCtrl ($scope, mercadopago, $location, SocioService, $mdToast, urlMpCheckout) {
+  
   var vm = this;
-
+  
   vm.socio = {};
   vm.socio.usuario = {};
   vm.socio.pessoa_fisica = {};
@@ -32,8 +33,7 @@ function CadastrarSocioCtrl ($scope, mercadopago, $location, SocioService, $mdTo
   mercadopago.loadRender();
 
   vm.cadastrar = function(){
-    console.log(vm.socio);
-
+    
     var formValido = true;
 
     angular.forEach($scope.formCadastroSocio.$error, function (error) {
@@ -42,25 +42,21 @@ function CadastrarSocioCtrl ($scope, mercadopago, $location, SocioService, $mdTo
             formValido = false;
         });
     });
-    console.log(formValido);
-
+    
     if(formValido){
       vm.socio.pessoa_fisica.estado_civil = 'N';
       vm.socio.pessoa_fisica.data_nascimento = vm.dataNascimento.substr(4) + '-' + vm.dataNascimento.substr(2,2) + '-' + vm.dataNascimento.substr(0,2);
-      console.log(vm.socio.pessoa_fisica.data_nascimento);
       vm.socio.usuario.password = sha256(vm.senhaUsuario);
       vm.senhaUsuario = '';
       vm.senhaConfirmar = '';
       SocioService.inserir(vm.socio).then(function(response){ // Success
-        console.log(response);
         vm.cadastroRealizado = true;
         vm.socio = response.data;
         // loads the Mercadopago render script to styliz
-        console.log(vm.socio);
         $scope.formCadastroSocio.$setPristine();
       }, function(response){ // Fail
         console.log('Falha ao inserir sócio.');
-        console.log(response);
+        
         var mensagem = '';
         if(response.status === 422) {
           mensagem = response.data.mensagem;
@@ -90,19 +86,11 @@ function CadastrarSocioCtrl ($scope, mercadopago, $location, SocioService, $mdTo
     vm.mensagemStatusPagamento = '';
     vm.solicitarNumeroCartao = false;
 
-      // my payment button code
-      //var preferenceId = '89639633-a6cae744-ed61-44cd-9183-2ba8097a1e34';
-
-      // Versão de teste
-      var preferenceId = '268296318-e5fb75db-c6bb-449e-972d-36ff3b96c86d';
-
       mercadopago.openCheckout({
-          url: 'https://www.mercadopago.com/mlb/checkout/start?pref_id=' + preferenceId
+          url: urlMpCheckout
       }).then(function (response) {
         console.log('Processo de pagamento concluído com status de sucesso!');
           // handles the success operation.
-          console.log(response);
-          console.log(vm.socio);
           vm.socio.pagamento = {
             idMercadoPago : response.collection_id,
             statusMercadoPago : response.collection_status
@@ -121,18 +109,14 @@ function CadastrarSocioCtrl ($scope, mercadopago, $location, SocioService, $mdTo
           }
           SocioService.inserirPagamento(vm.socio.pessoa_fisica.id, vm.socio.pagamento).then(function(resp){
             console.log('Pagamento cadastrado no sitema do Maximus.');
-            console.log(resp);
             vm.socio.pagamento = resp;
           }, function(resp){
-            console.log(resp);
             vm.mensagemStatusPagamento += "<br>" + "Não foi possível salvar o número do pagamento em nossa base agora, então guarde esse número poise podemos precisar confirmá-lo posteriormente.";
           });
 
       }, function (err) {
           console.log('Processo de pagamento concluído com status inválido!');
           // handles the failed operation.
-          console.log(err);
-
           // TODO ajustar código de exemplo
           vm.mensagemStatusPagamento = 'Nenhum pagamento foi gerado! O usuário não completou o processo de pagamento.';          
       });

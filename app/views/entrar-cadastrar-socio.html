@@ -181,7 +181,7 @@
                    <div flex-gt-sm="50" flex="100" style="padding-left: 10px; padding-right: 10px;">
                     <md-input-container class="md-block" md-is-error="formCadastroSocio.confirmacaoEmail.$dirty && (formCadastroSocio.confirmacaoEmail.$invalid || cadastrarSocio.confirmacaoEmail != cadastrarSocio.socio.pessoa_fisica.contato_email)">
                       <label>Confirme o E-mail</label>
-                      <input type="email" name="confirmacaoEmail" ng-model="cadastrarSocio.confirmacaoEmail" onpaste="return false;" required ng-keyup="console.log(formCadastroSocio.confirmacaoEmail.$error)" />
+                      <input type="email" name="confirmacaoEmail" ng-model="cadastrarSocio.confirmacaoEmail" onpaste="return false;" required />
                       <md-icon md-font-icon="mdi mdi-contact-mail" ng-if="!(cadastrarSocio.socio.pessoa_fisica.contato_email && cadastrarSocio.confirmacaoEmail === cadastrarSocio.socio.pessoa_fisica.contato_email)"></md-icon>
                       <md-icon md-font-icon="mdi mdi-check-circle" ng-if="cadastrarSocio.socio.pessoa_fisica.contato_email && cadastrarSocio.confirmacaoEmail === cadastrarSocio.socio.pessoa_fisica.contato_email"></md-icon>
                       <div ng-messages="formCadastroSocio.confirmacaoEmail.$error">

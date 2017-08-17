@@ -157,7 +157,6 @@ function HomeCtrl($rootScope, $timeout, $location, $mdSidenav, UserService, $fil
     if(roles){
       angular.forEach(roles, function(role){
         var menuToRole = $filter('filter')(vm.menuPages, {id: role.name}, true);
-        console.log(menuToRole);
         menusUsuario.push(menuToRole[0]);
       });
     }
@@ -170,7 +169,6 @@ function HomeCtrl($rootScope, $timeout, $location, $mdSidenav, UserService, $fil
       vm.menuPagesUser = getMenuPagesUser($rootScope.usuarioLogado.roles);
       var requestedLocation = $window.localStorage.getItem('requested_location');
       if(requestedLocation){
-        console.log(requestedLocation);
         $window.localStorage.removeItem('requested_location');
         $location.url('/' + requestedLocation);
       } else  {
@@ -224,8 +222,7 @@ function HomeCtrl($rootScope, $timeout, $location, $mdSidenav, UserService, $fil
           });
           limparCamposSenha();
         }, function(response){
-          console.log(response);
-
+          
           var mensagem = 'Falha ineperada!';
           if(response.status === 400){
             mensagem = response.data[0].mensagem;

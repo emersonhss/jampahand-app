@@ -207,7 +207,6 @@ angular
     function getUserData(id) {
       console.log('Welcome!  Fetching your information.... ');
       FB.api('/' + id + '?fields=id,name,email,picture', function(response) {
-        console.log(response);
         $rootScope.$apply(function() {
           $rootScope.usuarioLogado = response;
           $rootScope.$broadcast('$loginSuccess', response);

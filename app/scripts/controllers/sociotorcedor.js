@@ -10,10 +10,9 @@
 angular.module('maximushcApp')
   .controller('SocioTorcedorCtrl', SocioTorcedorCtrl);
 
-SocioTorcedorCtrl.$inject = ['$scope', '$rootScope', 'SocioService', '$location', '$mdDialog', 'mercadopago', '$mdToast'];
+SocioTorcedorCtrl.$inject = ['$scope', '$rootScope', 'SocioService', '$location', '$mdDialog', 'mercadopago', '$mdToast', 'urlMpCheckout'];
 
-function SocioTorcedorCtrl ($scope, $rootScope, SocioService, $location, $mdDialog, mercadopago, $mdToast) {
-
+function SocioTorcedorCtrl ($scope, $rootScope, SocioService, $location, $mdDialog, mercadopago, $mdToast, urlMpCheckout) {
 
   if(!$rootScope.usuarioLogado || !$rootScope.usuarioLogado.pessoa_fisica_id || !$rootScope.hasRole('socio-torcedor')){
     $location.url('/');
@@ -39,7 +38,6 @@ function SocioTorcedorCtrl ($scope, $rootScope, SocioService, $location, $mdDial
       vm.habilitarEfetuarPagamento = false;
       vm.habilitarVincularCartaoSocio = true;
       vm.pagamentoAprovadoSemCartaoAssociado = responseSuccess.data;
-      console.log(vm.pagamentoAprovadoSemCartaoAssociado);
     }, function(responseError){
         if(responseError.status === 404){
           console.log('Não há pagamento aprovado sem cartão.');  
@@ -59,7 +57,6 @@ function SocioTorcedorCtrl ($scope, $rootScope, SocioService, $location, $mdDial
       vm.habilitarVincularCartaoSocio = false;
       vm.habilitarVerCartaoSocio = true;
       vm.cartaoSocioTorcedorVinculado = responseSuccess.data;
-      console.log(vm.cartaoSocioTorcedorVinculado);
     }, function(responseError){
         if(responseError.status === 404){
           console.log('Não há cartão aprovado ou pendente vinculado.');  
@@ -93,7 +90,6 @@ function SocioTorcedorCtrl ($scope, $rootScope, SocioService, $location, $mdDial
       fullscreen: false // Only for -xs, -sm breakpoints.
     })
     .then(function(numeroCartao) {
-      console.log('Resposva vínculo do cartão: ' + answer);
       if(numeroCartao){
           // Submeter de fato a vinculação do cartão.
 
@@ -103,10 +99,17 @@ function SocioTorcedorCtrl ($scope, $rootScope, SocioService, $location, $mdDial
               vm.habilitarVincularCartaoSocio = false;
               vm.habilitarVerCartaoSocio = true;
               vm.cartaoSocioTorcedorVinculado = respSuccess.data;
+              var toast = $mdToast.simple()
+              .textContent('Cartão vinculado com sucesso!')
+              .action('OK')
+              .highlightAction(true)
+              .highlightClass('md-success')
+              .hideDelay(10000)
+              .position('top right');
+
+              $mdToast.show(toast).then(function(responseToast) {  });
 
             },function(resp){
-
-              console.log(resp);
               var mensagem = '';
               if(resp.status === 422){
                 mensagem = resp.data.error;
@@ -133,14 +136,11 @@ function SocioTorcedorCtrl ($scope, $rootScope, SocioService, $location, $mdDial
 
 
   function pagar(ev){
-    // Versão de teste
-      var preferenceId = '268296318-e5fb75db-c6bb-449e-972d-36ff3b96c86d';
-
+          
       mercadopago.openCheckout({
-          url: 'https://www.mercadopago.com/mlb/checkout/start?pref_id=' + preferenceId
+          url: urlMpCheckout
       }).then(function (response) {
         console.log('Processo de pagamento concluído com status de sucesso!');
-        console.log(response);
           // handles the success operation.
           vm.pagamentoAprovadoSemCartaoAssociado = {
             idMercadoPago : response.collection_id,
@@ -150,7 +150,6 @@ function SocioTorcedorCtrl ($scope, $rootScope, SocioService, $location, $mdDial
             console.log('Pagamento cadastrado no sitema do Maximus.');
             vm.habilitarEfetuarPagamento = false;
             vm.habilitarVincularCartaoSocio = true;
-            console.log(resp);
             vm.pagamentoAprovadoSemCartaoAssociado = resp.data;
             var toast = $mdToast.simple()
               .textContent('Pagamento '+  vm.pagamentoAprovadoSemCartaoAssociado.idMercadoPago + ' cadastrado registrado na situação "' +  vm.pagamentoAprovadoSemCartaoAssociado.statusMercadoPago + '".')
@@ -162,7 +161,6 @@ function SocioTorcedorCtrl ($scope, $rootScope, SocioService, $location, $mdDial
 
             $mdToast.show(toast).then(function(responseToast) { });
           }, function(resp){
-            console.log(resp);
             var mensagem = 'Não foi possível salvar o pagamento '+ vm.pagamentoAprovadoSemCartaoAssociado.idMercadoPagoem 
               +' nossa base agora, então guarde esse número pois podemos precisar confirmá-lo posteriormente.';
             var toast = $mdToast.simple()
@@ -179,7 +177,6 @@ function SocioTorcedorCtrl ($scope, $rootScope, SocioService, $location, $mdDial
       }, function (err) {
           console.log('Processo de pagamento concluído com status inválido!');
           // handles the failed operation.
-          console.log(err);
 
           var mensagem = 'Nenhum pagamento foi gerado! O usuário não completou o processo de pagamento.';
             var toast = $mdToast.simple()
@@ -242,7 +239,7 @@ function DialogVincularCartaoController($scope, $mdDialog) {
 
   $scope.vincular = function() {
     // Submter associação do cartão ao pagamento.
-    $mdDialog.hide('ok');
+    $mdDialog.hide($scope.numeroCartao);
   };
 }
 
