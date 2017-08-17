@@ -1,0 +1,39 @@
+<md-dialog aria-label="Vincular Cartão Sócio-Torcedor">
+  <form name="formVincularCartaoSocio" ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Vincular Cartão Sócio-Torcedor</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-font-icon="mdi mdi-close" aria-label="Fechar"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <p>
+          Informe um número de cartão de Sócio-Torcedor que você recebeu.
+        </p>
+
+        <div flex="50" flex-xs="100">
+            <md-input-container class="md-block" md-is-error="formVincularCartaoSocio.numeroCartao.$dirty && formVincularCartaoSocio.numeroCartao.$invalid">
+                <label>Número do Cartão</label>
+                <input type="number" name="numeroCartao" ng-model="numeroCartao" maxlength="10" required />
+                <md-icon md-font-icon="mdi mdi-account-card-details"></md-icon>
+                <div ng-messages="formVincularCartaoSocio.numeroCartao.$error">
+                    <div ng-message="required">Campo obrigatório.</div>
+                </div>
+            </md-input-container>
+        </div>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="vincular()" ng-disabled="formVincularCartaoSocio.numeroCartao.$invalid">
+        Vincular
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

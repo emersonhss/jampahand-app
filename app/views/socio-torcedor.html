@@ -1,13 +1,13 @@
-<div layout="row" layout-xs="column" flex="grow" layout-wrap>
-  <md-card flex-xs="100" flex-gt-xs="50" flex-gt-md="25">
+<div layout="row" layout-align="center stretch" layout-wrap >
+  <md-card flex-xs="100" flex-gt-xs="45" flex-gt-sm="30">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Ficha Cadastral</span>
-        <span class="md-subhead">Atualização de dados cadastrais do Sócio-Torcedor.</span>
+        <span class="md-subhead">Atualização de dados cadastrais do Sócio-Torcedor.<br><small>* Estamos trabalhando nisso. Em breve a funcionalidade estará disponível!</small></span>
       </md-card-title-text>
       <md-card-title-media>
         <div class="md-media-sm card-media">
-          <md-icon md-font-icon="mdi mdi-account-edit" class="md-primary" style="font-size: 84px;"></md-icon>
+          <md-icon md-font-icon="mdi mdi-account-edit" class="md-default" style="font-size: 84px;"></md-icon>
         </div>
       </md-card-title-media>
     </md-card-title>
@@ -17,7 +17,7 @@
     </md-card-actions>
   </md-card>
 
-  <md-card flex-xs="100" flex-gt-xs="50" flex-gt-md="25">
+  <md-card flex-xs="100" flex-gt-xs="45" flex-gt-sm="30">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Pagamento</span>
@@ -30,11 +30,11 @@
       </md-card-title-media>
     </md-card-title>
     <md-card-actions layout="row" layout-align="end center">
-      <md-button ng-disabled="!socioTorcedor.habilitarEfetuarPagamento">Pagar</md-button>
+      <md-button ng-disabled="!socioTorcedor.habilitarEfetuarPagamento" ng-click="socioTorcedor.pagar()">Pagar</md-button>
     </md-card-actions>
   </md-card>
 
-  <md-card flex-xs="100" flex-gt-xs="50" flex-gt-md="25">
+  <md-card flex-xs="100" flex-gt-xs="45" flex-gt-sm="30">
     <md-card-title>
       <md-card-title-text>
         <span class="md-headline">Cartão Sócio-Torcedor</span>
@@ -47,8 +47,8 @@
       </md-card-title-media>
     </md-card-title>
     <md-card-actions layout="row" layout-align="end center">
-      <md-button ng-if="socioTorcedor.habilitarVerCartaoSocio">Ver</md-button>
-      <md-button ng-if="socioTorcedor.habilitarVincularCartaoSocio">Vincular</md-button>
+      <md-button ng-if="socioTorcedor.habilitarVerCartaoSocio" ng-click="socioTorcedor.verCartao()">Ver</md-button>
+      <md-button ng-if="socioTorcedor.habilitarVincularCartaoSocio" ng-click="socioTorcedor.vincularPagamentoCartao()">Vincular</md-button>
     </md-card-actions>
   </md-card>
 

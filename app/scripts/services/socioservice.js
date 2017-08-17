@@ -20,7 +20,8 @@ function SocioService($http, URLBACKEND){
     inserir : inserir,
     inserirPagamento : inserirPagamento,
     inserirCartao : inserirCartao,
-    consultaPagamentoAprovadoSemCartaoAssociado : consultaPagamentoAprovadoSemCartaoAssociado
+    consultaPagamentoAprovadoSemCartaoAssociado : consultaPagamentoAprovadoSemCartaoAssociado,
+    consultaConsultarCartaoVinculadoAtivoOuPendente : consultaConsultarCartaoVinculadoAtivoOuPendente
   };
 
   return service;
@@ -33,9 +34,10 @@ function SocioService($http, URLBACKEND){
     return $http.post(URL_RESOURCE + '/'+ socioId + '/pagamento/', pagamento);
   }
 
-  function inserirCartao(socioId, numeroCartao){
+  function inserirCartao(socioId, numeroCartao, pagamento){
     var cartao = {};
     cartao.numero = numeroCartao;
+    cartao.pagamento_socio_id = pagamento;
     return $http.post(URL_RESOURCE + '/'+ socioId + '/cartao/', cartao);
   }
 
